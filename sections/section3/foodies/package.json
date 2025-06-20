@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "start_db": "node initdb.js",
-    "start_db_old": "rm meals.db && node initdb.js"
+    "start_db": "rm meals.db && node initdb.js",
+    "start_db_old": "node initdb.js"
   },
   "dependencies": {
     "better-sqlite3": "^11.8.1",
