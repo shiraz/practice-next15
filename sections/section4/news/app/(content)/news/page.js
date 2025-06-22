@@ -1,7 +1,7 @@
 import React from 'react';
 
 import NewsList from '@/components/NewsList';
-import { DUMMY_NEWS } from '../../constants/dummy-news';
+import { DUMMY_NEWS } from '@/constants/dummy-news';
 
 export default function News() {
   return (
