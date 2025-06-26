@@ -9,7 +9,7 @@ export default async function News() {
   //   throw new Error('Failed to fetch news');
   // }
 
-  const news = getAllNews();
+  const news = await getAllNews();
 
   return (
     <>

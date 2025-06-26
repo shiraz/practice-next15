@@ -1,10 +1,12 @@
 import React from 'react';
 
-import { DUMMY_NEWS } from '@/constants/dummy-news';
+// import { DUMMY_NEWS } from '@/constants/dummy-news';
+import { getNewsItem } from '@/lib/news';
 
-export default function Image({ params }) {
+export default async function Image({ params }) {
   const { slug } = params;
-  const newsItem = DUMMY_NEWS.find((item) => item.slug === slug);
+  // const newsItem = DUMMY_NEWS.find((item) => item.slug === slug);
+  const newsItem = await getNewsItem(slug);
 
   if (!newsItem) {
     notFound();

@@ -3,8 +3,8 @@ import React from 'react';
 import NewsList from '@/components/NewsList';
 import { getLatestNews } from '@/lib/news';
 
-export default function LatestNews() {
-  const latestNews = getLatestNews();
+export default async function LatestNews() {
+  const latestNews = await getLatestNews();
 
   return (
     <>
