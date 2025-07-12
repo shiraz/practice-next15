@@ -1,4 +1,7 @@
+import { getMessages } from "@/lib/messages";
+
 export default async function MessagesLayout({ children }) {
+  /*
   const response = await fetch('http://localhost:8080/messages', {
     // Request memoization test. Removing the header from here and in the page.js file returns
     // a single cached response for both the layout and page.
@@ -8,6 +11,9 @@ export default async function MessagesLayout({ children }) {
     // },
   });
   const messages = await response.json();
+  */
+
+  const messages = await getMessages();
   const totalMessages = messages.length;
 
   return (

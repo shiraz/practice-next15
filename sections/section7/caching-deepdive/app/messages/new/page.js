@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { addMessage } from '@/lib/messages';
 
@@ -8,6 +9,12 @@ export default function NewMessagePage() {
 
     const message = formData.get('message');
     addMessage(message);
+    // This will revalidate the messages page to show the new message immediately.
+    // revalidatePath('/messages'); 
+    // This will revalidate the messages layout to show the new message immediately.
+    // revalidatePath('/messages', 'layout'); 
+    // This will revalidate the messages layout and page to show the new message immediately. This is used in conjunction with the `getMessages` function in the messages.js file that has the `nextCache` tag set to 'msg'.
+    revalidateTag('msg'); 
     redirect('/messages');
   }
 
