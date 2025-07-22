@@ -1,5 +1,7 @@
 'use server';
 
+import { redirect } from 'next/navigation';
+
 import { createUser } from '@/lib/user';
 import { hashUserPassword } from '@/lib/hash';
 
@@ -13,18 +15,31 @@ export async function signup(prevState, formData) {
     errors.email = 'Invalid email address detected.';
   }
 
-  if (!password || password.trim.length < 8) {
+  if (password.trim().length < 8) {
     errors.password = 'Password must be at least 8 characters long.';
   }
 
   if (Object.keys(errors).length > 0) {
     return {
-      ...prevState,
       errors: errors,
     };
   }
 
   // Store in the DB.
   const hashedPwd = hashUserPassword(password);
-  createUser(email, hashedPwd);
+
+  try {
+    createUser(email, hashedPwd);
+  } catch (error) {
+    if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+      return {
+        errors: {
+          email: 'This email address is already in use.',
+        },
+      };
+    }
+    throw error;
+  }
+
+  redirect('/training');
 }
