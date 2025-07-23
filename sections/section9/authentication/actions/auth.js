@@ -2,8 +2,9 @@
 
 import { redirect } from 'next/navigation';
 
-import { createUser } from '@/lib/user';
-import { hashUserPassword } from '@/lib/hash';
+import { createAuthSession } from '@/lib/auth';
+import { hashUserPassword, verifyPassword } from '@/lib/hash';
+import { createUser, getUserByEmail } from '@/lib/user';
 
 export async function signup(prevState, formData) {
   const email = formData.get('email');
@@ -29,7 +30,9 @@ export async function signup(prevState, formData) {
   const hashedPwd = hashUserPassword(password);
 
   try {
-    createUser(email, hashedPwd);
+    const { lastInsertRowid: id } = createUser(email, hashedPwd);
+    await createAuthSession(id);
+    redirect('/training');
   } catch (error) {
     if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
       return {
@@ -40,6 +43,40 @@ export async function signup(prevState, formData) {
     }
     throw error;
   }
+}
 
+export async function login(prevState, formData) {
+  const email = formData.get('email');
+  const password = formData.get('password');
+
+  const existingUser = getUserByEmail(email);
+
+  if (!existingUser) {
+    return {
+      errors: {
+        email: 'No user found with this email address.',
+      },
+    };
+  }
+
+  const isValidPwd = verifyPassword(existingUser.password, password);
+
+  if (!isValidPwd) {
+    return {
+      errors: {
+        password: 'Incorrect password detected.',
+      },
+    };
+  }
+
+  await createAuthSession(existingUser.id);
   redirect('/training');
+}
+
+export async function auth(mode, prevState, formData) {
+  if (mode === 'login') {
+    return login(prevState, formData);
+  }
+
+  return signup(prevState, formData);
 }

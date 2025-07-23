@@ -6,3 +6,10 @@ export function createUser(email, password) {
     .run(email, password);
   return result;
 }
+
+export function getUserByEmail(email) {
+  const result = db
+    .prepare('SELECT * FROM users WHERE email = ?')
+    .get(email);
+  return result;
+}
