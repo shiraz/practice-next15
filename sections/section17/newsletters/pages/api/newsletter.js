@@ -1,4 +1,6 @@
-export default function handler(req, res) {
+import { insertDocument } from '../../helpers/mongo-util';
+
+export default async function handler(req, res) {
   if (req.method === 'POST') {
     const email = req.body.email;
 
@@ -9,6 +11,15 @@ export default function handler(req, res) {
       email.trim().length < 7
     ) {
       res.status(422).json({ message: 'Invalid email address.' });
+      return;
+    }
+
+    let result;
+
+    try {
+      result = await insertDocument('newsletter', 'emails', { email: email });
+    } catch (err) {
+      res.status(500).json({ message: 'Inserting data in emails failed!' });
       return;
     }
 
