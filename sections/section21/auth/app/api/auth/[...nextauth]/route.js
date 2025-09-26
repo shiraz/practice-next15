@@ -5,6 +5,7 @@ import { verifyPassword } from '../../../../lib/auth';
 import { getUserByEmail } from '../../../../lib/db';
 
 const handler = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     jwt: true,
   },
