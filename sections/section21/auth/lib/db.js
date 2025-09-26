@@ -19,6 +19,13 @@ export async function getClientAndDB() {
   }
 }
 
+export async function getUserByEmail(email) {
+  const { client, db } = await getClientAndDB();
+  const existingUser = await db.collection('users').findOne({ email });
+  client.close();
+  return existingUser;
+}
+
 export async function insertUserToDB(email, pwd) {
   const { client, db } = await getClientAndDB();
 

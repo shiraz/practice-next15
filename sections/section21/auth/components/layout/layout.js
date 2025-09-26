@@ -1,13 +1,15 @@
-import { Fragment } from 'react';
+import AuthSessionProvider from '../providers/session-provider';
 
 import MainNavigation from './main-navigation';
 
 function Layout(props) {
   return (
-    <Fragment>
-      <MainNavigation />
-      <main>{props.children}</main>
-    </Fragment>
+    <>
+      <AuthSessionProvider>
+        <MainNavigation />
+        <main>{props.children}</main>
+      </AuthSessionProvider>
+    </>
   );
 }
 

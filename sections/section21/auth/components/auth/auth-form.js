@@ -1,12 +1,11 @@
 'use client';
 
+import { signIn } from 'next-auth/react';
 import { useRef, useState } from 'react';
 
 import classes from './auth-form.module.css';
 
 async function createUser(email, password) {
-  console.info('---TEST createUser', email, password);
-
   const response = await fetch('/api/auth/signup', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
@@ -40,13 +39,17 @@ function AuthForm() {
     const enteredEmail = emailRef.current.value;
     const enteredPwd = pwdRef.current.value;
 
-    console.info('---TEST submithandler', enteredEmail, enteredPwd);
-
     if (isLogin) {
+      const result = await signIn('credentials', {
+        redirect: false, 
+        email: enteredEmail,
+        pwd: enteredPwd,
+      });
+
+      console.log('---TEST', result);
     } else {
       try {
         const result = await createUser(enteredEmail, enteredPwd);
-        console.log('--TEST after create user', result);
       } catch (err) {
         console.error(err);
       }
