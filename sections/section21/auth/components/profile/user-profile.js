@@ -27,10 +27,23 @@ function UserProfile() {
   //   return <p className={classes.profile}>Loading...</p>;
   // }
 
+  async function changePwdHandler(pwdData) {
+    const response = await fetch('/api/user/change-password', {
+      method: 'PATCH',
+      body: JSON.stringify(pwdData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  }
+
   return (
     <section className={classes.profile}>
       <h1>Your User Profile</h1>
-      <ProfileForm />
+      <ProfileForm onChangePwd={changePwdHandler} />
     </section>
   );
 }

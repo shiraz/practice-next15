@@ -45,3 +45,16 @@ export async function insertUserToDB(email, pwd) {
   client.close();
   return result;
 }
+
+export async function updateUserPassword(email, newPwd) {
+  const { client, db } = await getClientAndDB();
+
+  const hashedPassword = await hashPassword(newPwd);
+
+  const result = await db
+    .collection('users')
+    .updateOne({ email }, { $set: { password: hashedPassword } });
+
+  client.close();
+  return result;
+}
