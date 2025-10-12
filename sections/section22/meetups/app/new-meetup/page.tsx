@@ -1,17 +1,27 @@
 'use client';
 
-import NewMeetupForm from '@/components/meetups/NewMeetupForm';
+import { useRouter } from 'next/navigation';
 
-interface MeetupData {
-  title: string;
-  image: string;
-  address: string;
-  description: string;
-}
+import NewMeetupForm from '@/components/meetups/NewMeetupForm';
+import type MeetupData from '@/types/MeetupData';
 
 export default function NewMeetupPage() {
-  function addMeetupHandler(meetupData: MeetupData) {
-    console.log(meetupData);
+  const router = useRouter();
+
+  async function addMeetupHandler(meetupData: MeetupData) {
+    const response = await fetch('/api/new-meetup', {
+      method: 'POST',
+      body: JSON.stringify(meetupData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    console.info('Response from /api/new-meetup:', data);
+
+    router.push('/');
   }
 
   return <NewMeetupForm onAddMeetup={addMeetupHandler} />;

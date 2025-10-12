@@ -13,6 +13,7 @@ interface MeetupListProps {
 }
 
 function MeetupList(props: MeetupListProps) {
+  console.log('---TEST', props);
   return (
     <ul className={classes.list}>
       {props.meetups.map((meetup) => (
