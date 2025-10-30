@@ -1,15 +1,17 @@
 import Link from 'next/link';
 
-import Header from '@/components/Header';
-
 export default function Home() {
   return (
     <div>
       <main>
-        <Header />
-        <p>Let's get started</p>
         <p>
-          <Link href="/about">About Us</Link>
+          <Link href="/meals">Meals</Link>
+        </p>
+        <p>
+          <Link href="/meals/share">Share</Link>
+        </p>
+        <p>
+          <Link href="/community">Community</Link>
         </p>
       </main>
     </div>
