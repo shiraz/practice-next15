@@ -1,9 +1,12 @@
+import Image from 'next/image';
 import Link from 'next/link';
+
+import MainHeaderBackground from './main-header-background';
+import NavLink from './nav-link';
 
 import logoImg from '@/assets/logo.png';
 
 import classes from '../../styles/main-header.module.css';
-import MainHeaderBackground from './main-header-background';
 
 export default function MainHeader() {
   return (
@@ -11,16 +14,16 @@ export default function MainHeader() {
       <MainHeaderBackground />
       <header className={classes.header}>
         <Link className={classes.logo} href="/">
-          <img src={logoImg.src} alt="Foodies App Logo" />
+          <Image src={logoImg} alt="Foodies App Logo" />
           NextLevel Food
         </Link>
         <nav className={classes.nav}>
           <ul>
             <li>
-              <Link href="/meals">Browse Meals</Link>
+              <NavLink href="/meals">Browse Meals</NavLink>
             </li>
             <li>
-              <Link href="/community">Foodies Community</Link>
+              <NavLink href="/community">Foodies Community</NavLink>
             </li>
           </ul>
         </nav>
