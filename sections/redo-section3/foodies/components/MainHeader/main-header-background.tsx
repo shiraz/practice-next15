@@ -1,4 +1,4 @@
-import classes from '../../styles/main-header-background.module.css';
+import classes from '@/styles/components/main-header-background.module.css';
 
 export default function MainHeaderBackground() {
   return (
