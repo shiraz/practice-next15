@@ -11,7 +11,7 @@ import pizzaImg from '@/assets/pizza.jpg';
 import schnitzelImg from '@/assets/schnitzel.jpg';
 import tomatoSaladImg from '@/assets/tomato-salad.jpg';
 
-import classes from '../../styles/images-slideshow.module.css';
+import classes from '@/styles/components/images-slideshow.module.css';
 
 const images = [
   { image: burgerImg, alt: 'A delicious, juicy burger' },
