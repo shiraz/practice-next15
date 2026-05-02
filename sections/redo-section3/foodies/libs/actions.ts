@@ -1,21 +1,37 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 import isString from './isString';
 import { saveMeal } from './meals';
-import type { Meal } from '@/types/meal';
+import type { NewMeal } from '@/types/meal';
 
-export async function shareMeal(formData: FormData) {
+/** True when the field is missing, not a string, or only whitespace. */
+const isInvalidText = (value: unknown): boolean =>
+  !isString(value) || value.trim() === '';
+
+export type ShareMealState = {
+  message: string | null;
+};
+
+export async function shareMeal(
+  _prevState: ShareMealState,
+  formData: FormData,
+): Promise<ShareMealState> {
   const title = formData.get('title');
 
-  if (!isString(title)) {
-    throw new Error('Invalid title');
+  if (isInvalidText(title)) {
+    return {
+      message: 'Invalid title',
+    };
   }
 
   const creatorEmail = formData.get('email');
-  if (!isString(creatorEmail)) {
-    throw new Error('Invalid creator email');
+  if (!isString(creatorEmail) || !creatorEmail.includes('@')) {
+    return {
+      message: 'Invalid creator email',
+    };
   }
 
   const summary = formData.get('summary');
@@ -23,7 +39,25 @@ export async function shareMeal(formData: FormData) {
   const image = formData.get('image');
   const creator = formData.get('name');
 
-  const meal: Meal = {
+  if (isInvalidText(summary)) {
+    return {
+      message: 'Invalid summary',
+    };
+  }
+
+  if (isInvalidText(instructions)) {
+    return {
+      message: 'Invalid instructions',
+    };
+  }
+
+  if (isInvalidText(creator)) {
+    return {
+      message: 'Invalid creator',
+    };
+  }
+
+  const meal: NewMeal = {
     title: isString(title) ? title : '',
     summary: isString(summary) ? summary : '',
     instructions: isString(instructions) ? instructions : '',
@@ -33,6 +67,7 @@ export async function shareMeal(formData: FormData) {
   };
 
   await saveMeal(meal);
+  revalidatePath('/meals', 'layout');
 
   redirect(`/meals`);
 }

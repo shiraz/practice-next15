@@ -29,6 +29,16 @@
   max-width: 50rem;
 }
 
+.error {
+  margin: 1rem 0 0;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  background: rgba(249, 87, 42, 0.15);
+  border: 1px solid #f9572a;
+  color: #ffb4a0;
+  font-size: 1rem;
+}
+
 .form label {
   display: block;
   margin-bottom: 0.5rem;

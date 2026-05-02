@@ -4,6 +4,15 @@ import { notFound } from 'next/navigation';
 import { getMealBySlug } from '@/libs/meals';
 import classes from '@/styles/pages/meal-detail.module.css';
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }>; }) {
+  const { slug } = await params;
+  const meal = getMealBySlug(slug);
+  return {
+    title: 'Meal Details',
+    description: meal.summary,
+  };
+}
+
 export default async function MealDetail({
   params,
 }: {
